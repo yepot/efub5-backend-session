@@ -19,12 +19,18 @@ public class AccountController {
     private final AccountService accountService;
 
     // Redis에서 id로 이메일 조회
-
-
-
+    @GetMapping("/redis/{accountId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public String getEmailByIdfromRedis(@PathVariable Long accountId) {
+        return accountService.findEmailByIdFromRedis(accountId);
+    }
 
     // Mongodb에서  id로 닉네임 조회
-
+    @GetMapping("/mongodb/{accountId}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public String getNicknameByIdFromMongodb(@PathVariable Long accountId) {
+        return accountService.findNicknamaByIdFromMongo(accountId);
+    }
 
 
 
@@ -57,10 +63,10 @@ public class AccountController {
         return ResponseEntity.ok("message : 성공적으로 탈퇴되었습니다.");
     }
 
-//    // 계정 물리적 삭제: DELETE /accounts/{accountId}
-//    @DeleteMapping("/{accountId}")
-//    public ResponseEntity<String> physicalDeleteAccount(@PathVariable("accountId") Long accountId) {
-//        accountService.physicalDeleteAccount(accountId);
-//        return ResponseEntity.ok("message : 성공적으로 탈퇴되었습니다.");
-//    }
+    // 계정 물리적 삭제: DELETE /accounts/{accountId}
+    @DeleteMapping("/{accountId}")
+    public ResponseEntity<String> physicalDeleteAccount(@PathVariable("accountId") Long accountId) {
+        accountService.physicalDeleteAccount(accountId);
+        return ResponseEntity.ok("message : 성공적으로 탈퇴되었습니다.");
+    }
 }
